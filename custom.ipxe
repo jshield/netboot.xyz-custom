@@ -3,7 +3,7 @@
 # OpenBSD Operating System
 # http://www.openbsd.org
 
-set openbsd_mirror http://ftp.openbsd.org
+set openbsd_mirror https://cdn.openbsd.org
 set openbsd_base_dir pub/OpenBSD
 
 set boot_domain boot.netboot.xyz
