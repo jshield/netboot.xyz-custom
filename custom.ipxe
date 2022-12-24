@@ -1,12 +1,38 @@
 #!ipxe
-###
-### netboot.xyz-custom menu
-###
 
-:start
-echo Hello world!
-sleep 10
-goto custom_exit
+# OpenBSD Operating System
+# http://www.openbsd.org
 
-:custom_exit
+set openbsd_mirror http://ftp.openbsd.org
+set openbsd_base_dir pub/OpenBSD
+
+set boot_domain boot.netboot.xyz
+
+set memdisk http://${boot_domain}/memdisk
+
+:openbsd_menu
+set os OpenBSD
+menu ${os}
+item 7.2 ${space} ${os} 7.2
+item snapshots ${space} ${os} 7.2 Latest Snapshot
+choose ver || goto openbsd_exit
+iseq ${ver} 7.2 && set image_ver 72 ||
+iseq ${ver} snapshots && set image_ver 72 ||
+iseq ${arch} x86_64 && goto openbsd_x64 ||
+set openbsd_arch i386
+goto boot_openbsd
+
+:openbsd_x64
+set openbsd_arch amd64
+goto boot_openbsd
+
+:boot_openbsd
+set src ${openbsd_mirror}/${openbsd_base_dir}/${ver}/${openbsd_arch}/cd${image_ver}.iso
+imgfree
+initrd ${src}
+chain ${memdisk} iso raw
+exit
+
+:openbsd_exit
+clear menu
 exit 0
