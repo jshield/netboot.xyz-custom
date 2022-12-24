@@ -27,10 +27,9 @@ set openbsd_arch amd64
 goto boot_openbsd
 
 :boot_openbsd
-set src ${openbsd_mirror}/${openbsd_base_dir}/${ver}/${openbsd_arch}/miniroot${image_ver}.img
+set src ${openbsd_mirror}/${openbsd_base_dir}/${ver}/${openbsd_arch}/bsd.rd
 imgfree
-initrd ${src}
-chain ${memdisk} raw
+chain ${src}
 exit
 
 :openbsd_exit
